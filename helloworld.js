@@ -1,15 +1,16 @@
 var Cylon = require('cylon');
 
 Cylon.robot({
-  connection: { name: 'loopback', adaptor: 'loopback' },
-  device: { name: 'ping', driver: 'ping' },
-  commands: ['test'],
+  connections: [{name: 'loopback', adaptor: 'loopback'}],
+  devices: [{name: 'ping', driver: 'ping'}],
+  commands: function() {
+    return {test: this.test};
+  },
   test: function(greeting) {
     return greeting + " world";
   },
-  work: function() {
-  	var r = this;
-    every((3).seconds(), function() {console.log(r.test('hallo'))});
+  work: function(cy) {
+    every((3).seconds(), function() {console.log(cy.test('hello'))});
   }
 });
 
